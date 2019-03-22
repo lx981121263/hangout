@@ -1,0 +1,25 @@
+inputs:
+  - NewKafka:
+      topic:
+        ips_log_parse: 2
+        sas_log_parse: 2
+        waf_log_parse: 2
+        nf_log_parse: 2
+        windows_parse: 2
+        linux_parse: 2
+        sys_log_parse: 2
+        web_server_parse: 2
+      codec: json
+      consumer_settings:
+        bootstrap.servers: 127.0.0.1:9092
+        value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        group.id: ns_es
+outputs:
+  - Syslog:
+      protocol: udp
+      app_name: esp_sys_log
+      send_port: 514
+      send_host:
+        - 10.65.72.123
+

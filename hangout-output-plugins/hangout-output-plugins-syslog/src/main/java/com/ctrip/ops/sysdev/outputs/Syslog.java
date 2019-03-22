@@ -81,13 +81,13 @@ public class Syslog extends BaseOutput {
             Object message = this.format != null ? this.format.render(event) : event;
             if (message != null) {
                 String msg = JSON.toJSONString(message);
-                try {
-                    for (SyslogMessageSender syslogMessageSender : syslogMessageSenderList) {
-                        log.info("send syslog msg:{}", msg);
+                for (SyslogMessageSender syslogMessageSender : syslogMessageSenderList) {
+                    try {
                         syslogMessageSender.sendMessage(msg);
+                        log.info("send syslog msg:{}", msg);
+                    } catch (IOException e) {
+                        log.error("send syslog msg failure", e);
                     }
-                } catch (IOException e) {
-                    log.error("send syslog msg failure", e);
                 }
             }
         }
